@@ -1,0 +1,50 @@
+version: '3.5'
+
+services:
+  gochat:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: gochat_service
+    image: gochat
+    volumes:
+      - ../:/app
+    ports:
+      - "8080:8080"
+      - "8089:8089"
+    depends_on:
+      - postgres
+    networks:
+      - gochat_net
+  postgres:
+    container_name: postgres_container
+    image: postgres
+    environment:
+      POSTGRES_USER: 'root'
+      POSTGRES_PASSWORD: '123456'
+      PGDATA: /data/postgres
+    volumes:
+      - ./data:/data/postgres
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+    ports:
+      - "5432:5432"
+    networks:
+      - gochat_net
+    restart: unless-stopped
+
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: 'root@jkopay.com'
+      PGADMIN_DEFAULT_PASSWORD: '123456'
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - "5050:80"
+    networks:
+      - gochat_net
+    restart: unless-stopped
+
+networks:
+  gochat_net:
+    driver: bridge
