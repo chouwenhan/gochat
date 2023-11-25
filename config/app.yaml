@@ -8,8 +8,8 @@ app:
 
 
 redis:
-  addr: "localhost:6379"
-  password: ""
+  addr: "redis:6379"
+  password: "eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81"
   DB: 0
   poolSize: 30
   minIdleConns: 30
