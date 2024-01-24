@@ -21,7 +21,14 @@ import (
 
 // 查看全部在线用户
 func List(c *gin.Context) {
-
+	/**
+	 * @api {Get} /user/list Get Online User list
+	 * @apiName GetUserList
+	 * @apiVersion 1.0.0
+	 * @apiGroup APP
+	 * @apiHeader {String} Content-Type="application/json" application/json
+	 * @apiSampleRequest http://localhost/user/list
+	 */
 	appIdStr := c.Query("appId")
 	appIdUint64, _ := strconv.ParseInt(appIdStr, 10, 32)
 	appId := uint32(appIdUint64)
