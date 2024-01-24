@@ -46,6 +46,7 @@ services:
       - gochat_net
     restart: unless-stopped
   redis:
+    container_name: redis
     image: redis:6.2-alpine
     restart: always
     ports:
@@ -55,6 +56,18 @@ services:
     command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
     volumes:
       - ../:/data
+
+  apidoc:
+    container_name: apidoc
+    build:
+      context: .
+      dockerfile: Dockerfile-apidoc
+    ports:
+      - "3000:3000"
+    volumes:
+      - ../:/usr/src/app
+    command: sh -c "apidoc -i /usr/src/app -o /usr/src/app/apidoc && tail -f /dev/null"
+
 
 networks:
   gochat_net:
